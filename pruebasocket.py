@@ -11,12 +11,12 @@ import pandas as pd
 
 from flask import Flask, Response, render_template
 
-application = Flask(__name__)
+app = Flask(__name__)
 
 
 api_key = "a9d63e6b935687632ea75dcbe008a9e5d9452f053c192869607ef5441cd1203c"
 
-@application.route("/")
+@app.route("/")
 def index():
     return render_template("index.html")
 
@@ -57,10 +57,10 @@ def generate_data():
         time.sleep(1)
 
 
-@application.route("/chart-data")
+@app.route("/chart-data")
 def chart_data():
     return Response(generate_data(), mimetype="text/event-stream")
 
 
 if __name__ == "__main__":
-    application.run(threaded=True)
+    app.run(threaded=True)
