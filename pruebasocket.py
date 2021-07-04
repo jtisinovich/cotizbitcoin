@@ -62,5 +62,3 @@ def chart_data():
     return Response(generate_data(), mimetype="text/event-stream")
 
 
-if __name__ == "__main__":
-    app.run(threaded=True)
