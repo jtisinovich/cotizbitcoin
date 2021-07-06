@@ -42,14 +42,14 @@ def generate_data():
             
             value=price("BTC", "USD", "Coinbase").iloc[0,0]
             value1=price("BTC", "USD", "Kraken").iloc[0,0]
-            spread = abs(value - value1)
+            
             
             json_data = json.dumps(
                 {
                 "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "value": value,
-                "value1":value1,
-                "spread":spread
+                "value1":value1
+                
                  }, default=np_encoder
                 )
             time.sleep(1)
