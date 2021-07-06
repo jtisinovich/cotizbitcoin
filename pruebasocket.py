@@ -6,7 +6,7 @@ import time
 from datetime import datetime
 import requests
 import pandas as pd
-
+import numpy as np
 
 
 from flask import Flask, Response, render_template
@@ -14,8 +14,8 @@ from flask import Flask, Response, render_template
 app = Flask(__name__)
 
 
-api_key = "a9d63e6b935687632ea75dcbe008a9e5d9452f053c192869607ef5441cd1203c"
-
+#api_key = "a9d63e6b935687632ea75dcbe008a9e5d9452f053c192869607ef5441cd1203c"
+api_key="cdf1177d69fa088656c47d9e7f65b912604ca069c5c4351a9ba0e0594cfa5103"
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -30,7 +30,9 @@ def price(fsym, tsyms, exchange):
      df = pd.DataFrame(js, index=[fsym]).transpose()
      return df
 
-
+def np_encoder(object):
+    if isinstance(object, np.generic):
+        return object.item()
 
 def generate_data():
     
@@ -48,12 +50,13 @@ def generate_data():
                 "value": value,
                 "value1":value1,
                 "spread":spread
-                 }
+                 }, default=np_encoder
                 )
+            time.sleep(1)
             yield f"data:{json_data}\n\n"
-        except:
-            pass
-        
+        except GeneratorExit:
+            print("Valor no encontrado")
+            return
         time.sleep(1)
 
 
